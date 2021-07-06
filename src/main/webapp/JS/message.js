@@ -1,18 +1,4 @@
 // JavaScript Document
-function back(){
-	$.ajax({
-		url:"Message_Back",
-		type:"post",
-		data:{},
-		datatype:"json",
-		error:function(error){
-			alert(error+"请求失败");
-		},
-		success:function(){
-			window.location.href = "Main.html";
-		}
-	})
-}
 function submit(){
 	$.ajax({
 		url:"Back_Publish",
@@ -286,6 +272,19 @@ $(function(){
 				})
 			}
 			else{
+				$.ajax({
+					url:"User_img",
+					type:"post",
+					data:{},
+					datatype:"json",
+					error:function(error){
+						alert(error+"请求失败");
+					},
+					success:function(result){
+						var Uimgurl = JSON.parse(result).Uimgurl;
+						$("#UserImg").attr({src:Uimgurl});
+					}
+				})
 				pageNum = 0;
 				$.ajax({
 					url:"Message_Query",

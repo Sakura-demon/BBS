@@ -118,10 +118,20 @@ function Upassword(){
 function Signout(){
 	window.location.href = "index.html";
 }
-function back(){
-	window.location.href = "Main.html";
-}
 $(function(){
+	$.ajax({
+		url:"User_img",
+		type:"post",
+		data:{},
+		datatype:"json",
+		error:function(error){
+			alert(error+"请求失败");
+		},
+		success:function(result){
+			var Uimgurl = JSON.parse(result).Uimgurl;
+			$("#UserImg").attr({src:Uimgurl});
+		}
+	})
 	$.ajax({
 		url:"User_Info",
 		type:"post",
