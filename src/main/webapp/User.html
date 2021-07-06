@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>BBS个人空间</title>
+<link rel="stylesheet" href="CSS/user.css">
+<script src="JS/JQueryMin.js"></script>
+<script src="JS/user.js"></script>
+</head>
+
+<body>
+	<div class="box">
+		<div class="userbox">
+			<img alt="用户图像" class="userImg" id="userImg">
+			<!--
+			<label for="file-input">
+				<img alt="编辑图标" src="Img/pen.png" class="userEdit">
+			</label>
+        	<input type="file" id="file-input"  style="display: none;" multiple="multiple" accept="image/gif,image/png,image/jpg" onChange="userImg()">
+			-->
+		</div>
+		<div class="userbox" id="Unamebox">
+			<p id="Uname">用户名称:</p>
+			<img alt="编辑图标" src="Img/pen.png" class="userEdit" onClick="Uname()">
+		</div>
+		<div class="userbox">
+			<p id="Uaccount">用户账号:</p>
+		</div>
+		<div class="userbox" id="Upasswordbox">
+			<p>用户密码</p>
+			<img alt="编辑图标" src="Img/pen.png" class="userEdit" onClick="Upassword()">
+		</div>
+		<div class="sys">
+			<button onClick="back()">返回</button>
+			<button onClick="Signout()">退出系统</button>
+		</div>
+	</div>
+</div>
+</body>
+</html>
