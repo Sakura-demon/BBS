@@ -25,6 +25,40 @@ function userImg(){
 	})
 }
 */
+function message(){
+	$.ajax({
+			url:"User_messageOrback",
+			type:"post",
+			data:{
+				flag:0,
+				status:0
+			},
+			datatype:"json",
+			error:function(error){
+				alert(error+"请求失败");
+			},
+			success:function(result){
+				window.location.href = "UserPast.html";
+			}
+	})
+}
+function Back(){
+	$.ajax({
+			url:"User_messageOrback",
+			type:"post",
+			data:{
+				flag:1,
+				status:0
+			},
+			datatype:"json",
+			error:function(error){
+				alert(error+"请求失败");
+			},
+			success:function(result){
+				window.location.href = "UserPast.html";
+			}
+	})
+}
 function Uname(){
 	var Unamebox = document.getElementById("Unamebox");
 	Unamebox.innerHTML = '';

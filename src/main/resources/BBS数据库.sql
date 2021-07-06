@@ -122,7 +122,6 @@ begin
 end
 \\
 DELIMITER \\
-/*
 create procedure User_pastMessageQuery(in Uaccount int)
 begin
 	select Mid,Uname,Uimgurl,Mtitle,Mtime from Users 
@@ -139,7 +138,6 @@ begin
     where Users.Uaccount = Uaccount;
 end
 \\
-*/
 DELIMITER \\
 create procedure User_pastBackDelete(in Bid int,out flag int)
 begin

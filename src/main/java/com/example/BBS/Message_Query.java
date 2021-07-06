@@ -104,7 +104,13 @@ public class Message_Query extends HttpServlet {
             }
             int Page = Integer.parseInt(req.getParameter("Page"));
             JSONArray jsonArray = new JSONArray();
-            if (Page == -5){
+            if (Page == -6){
+                int curPage = (int) session.getAttribute("curPage");
+                JSONObject jsonObjectcurPage = new JSONObject();
+                jsonObjectcurPage.put("curPage",curPage);
+                jsonArray.add(jsonObjectcurPage);
+            }
+            else if (Page == -5){
                 int length = 0;
                 while (true){
                     try {
@@ -121,6 +127,7 @@ public class Message_Query extends HttpServlet {
             else if (Page == -4){
                 int curPage = (int) session.getAttribute("curPage");
                 curPage --;
+                session.setAttribute("curPage",curPage);
                 try {
                     for (int i = 0; i < (curPage-1)*10; i++) {
                         rs.next();
@@ -136,7 +143,7 @@ public class Message_Query extends HttpServlet {
                             jsonObject.put("Uname",rs.getString("Uname"));
                             jsonObject.put("Uimgurl",rs.getString("Uimgurl"));
                             jsonObject.put("Btime",rs.getString("Btime"));
-                            jsonObject.put("Bmessage",rs.getDate("Bmessage"));
+                            jsonObject.put("Bmessage",rs.getString("Bmessage"));
                             jsonArray.add(jsonObject);
                         }
                     } catch (SQLException throwables) {
@@ -147,6 +154,7 @@ public class Message_Query extends HttpServlet {
             else if (Page == -3){
                 int curPage = (int) session.getAttribute("curPage");
                 curPage++;
+                session.setAttribute("curPage",curPage);
                 try {
                     for (int i = 0; i < (curPage-1)*10; i++) {
                         rs.next();
@@ -162,7 +170,7 @@ public class Message_Query extends HttpServlet {
                             jsonObject.put("Uname",rs.getString("Uname"));
                             jsonObject.put("Uimgurl",rs.getString("Uimgurl"));
                             jsonObject.put("Btime",rs.getString("Btime"));
-                            jsonObject.put("Bmessage",rs.getDate("Bmessage"));
+                            jsonObject.put("Bmessage",rs.getString("Bmessage"));
                             jsonArray.add(jsonObject);
                         }
                     } catch (SQLException throwables) {

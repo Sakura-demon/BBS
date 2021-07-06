@@ -41,7 +41,13 @@ public class Main_Query extends HttpServlet {
         int Page = Integer.parseInt(req.getParameter("Page"));
         HttpSession session = req.getSession();
         JSONArray jsonArray = new JSONArray();
-        if (Page == -5){
+        if (Page == -6){
+            int curPage = (int) session.getAttribute("curPage");
+            JSONObject jsonObjectcurPage = new JSONObject();
+            jsonObjectcurPage.put("curPage",curPage);
+            jsonArray.add(jsonObjectcurPage);
+        }
+        else if (Page == -5){
             int length = 0;
             while (true){
                 try {
@@ -58,6 +64,7 @@ public class Main_Query extends HttpServlet {
         else if (Page == -4){
             int curPage = (int) session.getAttribute("curPage");
             curPage --;
+            session.setAttribute("curPage",curPage);
             try {
                 for (int i = 0; i < (curPage-1)*10; i++) {
                     rs.next();
@@ -84,6 +91,7 @@ public class Main_Query extends HttpServlet {
         else if (Page == -3){
             int curPage = (int) session.getAttribute("curPage");
             curPage++;
+            session.setAttribute("curPage",curPage);
             try {
                 for (int i = 0; i < (curPage-1)*10; i++) {
                     rs.next();

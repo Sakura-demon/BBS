@@ -82,7 +82,7 @@ function showBox(obj){
 			'</div>'+
 		'</div>'
 }
-function showMiddleAdmin(page){
+function showMiddleAdmin(page,pageNum){
 	$.ajax({
 		url:"Message_Query",
 		type:"post",
@@ -114,10 +114,11 @@ function showMiddleAdmin(page){
 						'</div>'+
 					'</div>'
 			})
+			showBottomAdmin(pageNum);
 		}
 	})
 }
-function showMiddleUser(page){
+function showMiddleUser(page,pageNum){
 	$.ajax({
 		url:"Message_Query",
 		type:"post",
@@ -131,7 +132,6 @@ function showMiddleUser(page){
 		},
 		success:function(result){
 			var obj = JSON.parse(result);
-			console.log(obj);
 			var middle = document.getElementById("middle");
 			middle.innerHTML = '';
 			middle.innerHTML +=
@@ -156,42 +156,87 @@ function showMiddleUser(page){
 						'</div>'+
 					'</div>'
 			})
+			showBottomUser(pageNum);
 		}
 	})
 }
-function showBottomAdmin(pageNum,page){
-	var ul = document.getElementById("ul");
-	if(page != 1 || pageNum != 1){
-		ul.innerHTML +=
-		'<li class = "li"><a class = "lia" href="javascript:showMiddleAdmin(-2)">首页</a></li>'+
-		'<li class = "li"><a class = "lia" href="javascript:showMiddleAdmin(-4)">上一页</a></li>'
-	}
-	for(var i = 0;i < pageNum;i++){
-		ul.innerHTML +=
-			'<li class = "li"><a class = "lia" href="javascript:showMiddleAdmin('+(i-2)+')">'+(i+1)+'</a></li>'
-	}
-	if(page != pageNum || pageNum != 1){
-		ul.innerHTML +=
-		'<li class = "li"><a class = "lia" href="javascript:showMiddleAdmin(-3)">下一页</a></li>'+
-		'<li class = "li"><a class = "lia" href="javascript:showMiddleAdmin('+(pageNum-3)+')">尾页</a></li>'
-	}
+function showBottomAdmin(pageNum){
+	$.ajax({
+		url:"Message_Query",
+		type:"post",
+		data:{
+			flag:1,
+			Page:-6
+		},
+		datatype:"json",
+		error:function(error){
+			alert(error+"请求失败");
+		},
+		success:function(result){
+			var obj = JSON.parse(result);
+			var page = obj[0].curPage;
+			var ul = document.getElementById("ul");
+			ul.innerHTML = '';
+			if(page != 1 || pageNum != 1){
+			ul.innerHTML +=
+				'<li class = "li"><a class = "lia" href="javascript:showMiddleAdmin(-2,'+pageNum+')">首页</a></li>'+
+				'<li class = "li"><a class = "lia" href="javascript:showMiddleAdmin(-4,'+pageNum+')">上一页</a></li>'
+			}
+			for(var i = 0;i < pageNum;i++){
+				if(i+1 == page){
+					ul.innerHTML +=
+						'<li class = "li"><a class = "lia" style="background: #30A5DA;" href="javascript:showMiddleAdmin('+(i-2)+','+pageNum+')">'+	(i+1)+'</a></li>'
+				}else{
+					ul.innerHTML +=
+						'<li class = "li"><a class = "lia" href="javascript:showMiddleAdmin('+(i-2)+','+pageNum+')">'+(i+1)+'</a></li>'
+				}
+			}
+			if(page != pageNum || pageNum != 1){
+				ul.innerHTML +=
+					'<li class = "li"><a class = "lia" href="javascript:showMiddleAdmin(-3,'+pageNum+')">下一页</a></li>'+
+					'<li class = "li"><a class = "lia" href="javascript:showMiddleAdmin('+(pageNum-3)+','+pageNum+')">尾页</a></li>'
+			}
+		}
+	})
 }
-function showBottomUser(pageNum,page){
-	var ul = document.getElementById("ul");
-	if(page != 1 || pageNum != 1){
-		ul.innerHTML +=
-		'<li class = "li"><a class = "lia" href="javascript:showMiddleUser(-2)">首页</a></li>'+
-		'<li class = "li"><a class = "lia" href="javascript:showMiddleUser(-4)">上一页</a></li>'
-	}
-	for(var i = 0;i < pageNum;i++){
-		ul.innerHTML +=
-			'<li class = "li"><a class = "lia" href="javascript:showMiddleUser('+(i-2)+')">'+(i+1)+'</a></li>'
-	}
-	if(page != pageNum || pageNum != 1){
-		ul.innerHTML +=
-		'<li class = "li"><a class = "lia" href="javascript:showMiddleUser(-3)">下一页</a></li>'+
-		'<li class = "li"><a class = "lia" href="javascript:showMiddleUser('+(pageNum-3)+')">尾页</a></li>'
-	}
+function showBottomUser(pageNum){
+	$.ajax({
+		url:"Message_Query",
+		type:"post",
+		data:{
+			flag:1,
+			Page:-6
+		},
+		datatype:"json",
+		error:function(error){
+			alert(error+"请求失败");
+		},
+		success:function(result){
+			var obj = JSON.parse(result);
+			var page = obj[0].curPage;
+			var ul = document.getElementById("ul");
+			ul.innerHTML = '';
+			if(page != 1 || pageNum != 1){
+			ul.innerHTML +=
+				'<li class = "li"><a class = "lia" href="javascript:showMiddleUser(-2,'+pageNum+')">首页</a></li>'+
+				'<li class = "li"><a class = "lia" href="javascript:showMiddleUser(-4,'+pageNum+')">上一页</a></li>'
+			}
+			for(var i = 0;i < pageNum;i++){
+				if(i+1 == page){
+					ul.innerHTML +=
+						'<li class = "li"><a class = "lia" style="background: #30A5DA;" href="javascript:showMiddleUser('+(i-2)+','+pageNum+')">'+(i+1)+'</a></li>'
+				}else{
+					ul.innerHTML +=
+						'<li class = "li"><a class = "lia" href="javascript:showMiddleUser('+(i-2)+','+pageNum+')">'+(i+1)+'</a></li>'
+				}
+			}
+			if(page != pageNum || pageNum != 1){
+				ul.innerHTML +=
+					'<li class = "li"><a class = "lia" href="javascript:showMiddleUser(-3,'+pageNum+')">下一页</a></li>'+
+					'<li class = "li"><a class = "lia" href="javascript:showMiddleUser('+(pageNum-3)+','+pageNum+')">尾页</a></li>'
+			}
+		}
+	})
 }
 $(function(){
 	$.ajax({
@@ -220,14 +265,13 @@ $(function(){
 		success:function(result){
 			var obj = JSON.parse(result);
 			if(obj.flag == 0){
-				var page = -5;
 				var pageNum = 0;
 				$.ajax({
 					url:"Message_Query",
 					type:"post",
 					data:{
 						flag:1,
-						Page:page
+						Page:-5
 					},
 					datatype:"json",
 					error:function(error){
@@ -237,21 +281,18 @@ $(function(){
 						var obj = JSON.parse(result);
 						var totalNum = obj[0].length;
 						pageNum = Math.ceil(totalNum/10);
-						page = -2;//
-						showMiddleAdmin(page);
-						showBottomAdmin(pageNum);
+						showMiddleAdmin(-2,pageNum);
 					}
 				})
 			}
 			else{
-				page = -5;
 				pageNum = 0;
 				$.ajax({
-					url:"Main_Query",
+					url:"Message_Query",
 					type:"post",
 					data:{
 						flag:1,
-						Page:page
+						Page:-5
 					},
 					datatype:"json",
 					error:function(error){
@@ -261,9 +302,7 @@ $(function(){
 						var obj = JSON.parse(result);
 						var totalNum = obj[0].length;
 						pageNum = Math.ceil(totalNum/10);
-						page = -2;
-						showMiddleUser(page);
-						showBottomUser(pageNum);
+						showMiddleUser(-2,pageNum);
 					}
 				})
 			}

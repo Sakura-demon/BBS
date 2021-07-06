@@ -16,7 +16,6 @@ function submit(){
 		},
 		success:function(result){
 			var obj = JSON.parse(result);
-			console.log(obj);
 			var flag = obj.flag;
 			if(flag == 1){
 				window.location.reload();
@@ -66,41 +65,83 @@ function message(Mid){
 		}
 	})
 }
-function bottomAdmin(pageNum,page){
-	var ul = document.getElementById("ul");
-	if(page != 1 || pageNum != 1){
-		ul.innerHTML +=
-		'<li class = "li"><a class = "lia" href="javascript:showpageAdmin(-2)">首页</a></li>'+
-		'<li class = "li"><a class = "lia" href="javascript:showpageAdmin(-4)">上一页</a></li>'
-	}
-	for(var i = 0;i < pageNum;i++){
-		ul.innerHTML +=
-			'<li class = "li"><a class = "lia" href="javascript:showpageAdmin('+(i-2)+')">'+(i+1)+'</a></li>'
-	}
-	if(page != pageNum || pageNum != 1){
-		ul.innerHTML +=
-		'<li class = "li"><a class = "lia" href="javascript:showpageAdmin(-3)">下一页</a></li>'+
-		'<li class = "li"><a class = "lia" href="javascript:showpageAdmin('+(pageNum-3)+')">尾页</a></li>'
-	}
+function bottomAdmin(pageNum){
+	$.ajax({
+		url:"Main_Query",
+		type:"post",
+		data:{
+			Page:-6
+		},
+		datatype:"json",
+		error:function(error){
+			alert(error+"请求失败");
+		},
+		success:function(result){
+			var obj = JSON.parse(result);
+			var page = obj[0].curPage;
+			var ul = document.getElementById("ul");
+			ul.innerHTML = '';
+			if(page != 1 || pageNum != 1){
+			ul.innerHTML +=
+				'<li class = "li"><a class = "lia" href="javascript:showpageAdmin(-2,'+pageNum+')">首页</a></li>'+
+				'<li class = "li"><a class = "lia" href="javascript:showpageAdmin(-4,'+pageNum+')">上一页</a></li>'
+			}
+			for(var i = 0;i < pageNum;i++){
+				if(i+1 == page){
+					ul.innerHTML +=
+						'<li class = "li"><a class = "lia" style="background: #30A5DA;" href="javascript:showpageAdmin('+(i-2)+','+pageNum+')">'+	(i+1)+'</a></li>'
+				}else{
+					ul.innerHTML +=
+						'<li class = "li"><a class = "lia" href="javascript:showpageAdmin('+(i-2)+','+pageNum+')">'+(i+1)+'</a></li>'
+				}
+			}
+			if(page != pageNum || pageNum != 1){
+				ul.innerHTML +=
+					'<li class = "li"><a class = "lia" href="javascript:showpageAdmin(-3,'+pageNum+')">下一页</a></li>'+
+					'<li class = "li"><a class = "lia" href="javascript:showpageAdmin('+(pageNum-3)+','+pageNum+')">尾页</a></li>'
+			}
+		}
+	})
 }
-function bpttomUser(pageNum,page){
-	var ul = document.getElementById("ul");
-	if(page != 1 || pageNum != 1){
-		ul.innerHTML +=
-		'<li class = "li"><a class = "lia" href="javascript:showpageUser(-2)">首页</a></li>'+
-		'<li class = "li"><a class = "lia" href="javascript:showpageUser(-4)">上一页</a></li>'
-	}
-	for(var i = 0;i < pageNum;i++){
-		ul.innerHTML +=
-			'<li class = "li"><a class = "lia" href="javascript:showpageUser('+(i-2)+')">'+(i+1)+'</a></li>'
-	}
-	if(page != pageNum || pageNum != 1){
-		ul.innerHTML +=
-		'<li class = "li"><a class = "lia" href="javascript:showpageUser(-3)">下一页</a></li>'+
-		'<li class = "li"><a class = "lia" href="javascript:showpageUser('+(pageNum-3)+')">尾页</a></li>'
-	}
+function bottomUser(pageNum){
+	$.ajax({
+		url:"Main_Query",
+		type:"post",
+		data:{
+			Page:-6
+		},
+		datatype:"json",
+		error:function(error){
+			alert(error+"请求失败");
+		},
+		success:function(result){
+			var obj = JSON.parse(result);
+			var page = obj[0].curPage;
+			var ul = document.getElementById("ul");
+			ul.innerHTML = '';
+			if(page != 1 || pageNum != 1){
+			ul.innerHTML +=
+				'<li class = "li"><a class = "lia" href="javascript:showpageUser(-2,'+pageNum+')">首页</a></li>'+
+				'<li class = "li"><a class = "lia" href="javascript:showpageUser(-4,'+pageNum+')">上一页</a></li>'
+			}
+			for(var i = 0;i < pageNum;i++){
+				if(i+1 == page){
+					ul.innerHTML +=
+						'<li class = "li"><a class = "lia" style="background: #30A5DA;" href="javascript:showpageUser('+(i-2)+','+pageNum+')">'+(i+1)+'</a></li>'
+				}else{
+					ul.innerHTML +=
+						'<li class = "li"><a class = "lia" href="javascript:showpageUser('+(i-2)+','+pageNum+')">'+(i+1)+'</a></li>'
+				}
+			}
+			if(page != pageNum || pageNum != 1){
+				ul.innerHTML +=
+					'<li class = "li"><a class = "lia" href="javascript:showpageUser(-3,'+pageNum+')">下一页</a></li>'+
+					'<li class = "li"><a class = "lia" href="javascript:showpageUser('+(pageNum-3)+','+pageNum+')">尾页</a></li>'
+			}
+		}
+	})
 }
-function showpageAdmin(page){
+function showpageAdmin(page,pageNum){	
 	$.ajax({
 		url:"Main_Query",
 		type:"post",
@@ -120,11 +161,11 @@ function showpageAdmin(page){
 					'<div class = "Mid">'+
 						'<div style="width:70%">'+
 							'<a class = "a" href="javascript:message('+value.Mid+')">'+
-								'<div>'+
+								'<div style="width:50%">'+
 									'<p>'+value.Uname+'</p>'+
 									'<img alt="用户图像" src="'+value.Uimgurl+'">'+
 								'</div>'+
-								'<div>'+
+								'<div style="width:50%">'+
 									'<h1>'+value.Mtitle+'</h1>'+
 									'<p>'+value.Mtime+'</p>'+
 								'</div>'+
@@ -135,10 +176,11 @@ function showpageAdmin(page){
 						'</div>'+
 					'</div>'
 			})
+		bottomAdmin(pageNum);
 		}
 	})
 }
-function showpageUser(page){
+function showpageUser(page,pageNum){
 	$.ajax({
 		url:"Main_Query",
 		type:"post",
@@ -180,6 +222,7 @@ function showpageUser(page){
 						'</div>'+
 					'</div>'
 			})
+		bottomUser(pageNum);
 		}
 	})
 }
@@ -199,13 +242,12 @@ $(function(){
 				user.innerHTML = '';
 				user.innerHTML +=
 					'<button class="Signout" id="Signout" onClick="Signout()">退出</button>'
-				var page = -5;
 				var pageNum = 0;
 				$.ajax({
 					url:"Main_Query",
 					type:"post",
 					data:{
-						Page:page
+						Page:-5
 					},
 					datatype:"json",
 					error:function(error){
@@ -215,9 +257,7 @@ $(function(){
 						var obj = JSON.parse(result);
 						var totalNum = obj[0].length;
 						pageNum = Math.ceil(totalNum/10);
-						page = -2;
-						showpageAdmin(page);
-						bottomAdmin(pageNum);
+						showpageAdmin(-2,pageNum);
 					}
 				})
 			}
@@ -235,13 +275,12 @@ $(function(){
 						$("#UserImg").attr({src:Uimgurl});
 					}
 				})
-				page = -5;
 				pageNum = 0;
 				$.ajax({
 					url:"Main_Query",
 					type:"post",
 					data:{
-						Page:page
+						Page:-5
 					},
 					datatype:"json",
 					error:function(error){
@@ -251,9 +290,7 @@ $(function(){
 						var obj = JSON.parse(result);
 						var totalNum = obj[0].length;
 						pageNum = Math.ceil(totalNum/10);
-						page = -2;
-						showpageUser(page);
-						bpttomUser(pageNum);
+						showpageUser(-2,pageNum);
 					}
 				})
 			}
