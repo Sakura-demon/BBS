@@ -13,14 +13,14 @@ create table Users(
     Uname varchar(20) unique,
     Upassword varchar(20) not null,
     Uimgurl varchar(100)
-);
+)ENGINE = INNODB COLLATE =utf8_bin;
 /*
 管理员信息表    Admin   数据由人为插入
 口令(char(12))
 */
 create table Admin(
 	Apassword char(12) not null primary key
-);
+)ENGINE = INNODB COLLATE =utf8_bin;
 /*
 留言信息表  Message
 留言号（int,自动生成,主键）  
@@ -36,7 +36,7 @@ create table Message(
     Mtime date,
     Mmessage varchar(1000),
     constraint foreign key(Uaccount) references Users(Uaccount) on update cascade
-);
+)ENGINE = INNODB COLLATE =utf8_bin;
 /*
 回复信息表  Back
 回复号（int,自动生成,主键）  
@@ -53,7 +53,7 @@ create table Back(
     Bmessage varchar(1000),
     constraint foreign key(Mid) references Message(Mid) on update cascade,
     constraint foreign key(Uaccount) references Users(Uaccount) on update cascade
-);
+)ENGINE = INNODB COLLATE =utf8_bin;
 insert into Admin(Apassword) values('Admin1234567');
 /*
 管理员登录验证功能Admin_Signin
