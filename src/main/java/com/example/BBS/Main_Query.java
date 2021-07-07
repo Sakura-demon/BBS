@@ -15,6 +15,7 @@ import java.sql.*;
 public class Main_Query extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        //调用数据库主页留言查询功能存储过程Main_Query
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -28,6 +29,7 @@ public class Main_Query extends HttpServlet {
         }
         CallableStatement sql = null;
         try {
+            //调用数据库主页留言查询功能存储过程Main_Query
             sql = con.prepareCall("{call Main_Query()}");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -41,12 +43,14 @@ public class Main_Query extends HttpServlet {
         int Page = Integer.parseInt(req.getParameter("Page"));
         HttpSession session = req.getSession();
         JSONArray jsonArray = new JSONArray();
+        //返回当前页数
         if (Page == -6){
             int curPage = (int) session.getAttribute("curPage");
             JSONObject jsonObjectcurPage = new JSONObject();
             jsonObjectcurPage.put("curPage",curPage);
             jsonArray.add(jsonObjectcurPage);
         }
+        //返回数据总条数
         else if (Page == -5){
             int length = 0;
             while (true){
@@ -61,6 +65,7 @@ public class Main_Query extends HttpServlet {
             jsonObjectlength.put("length",length);
             jsonArray.add(jsonObjectlength);
         }
+        //上一页
         else if (Page == -4){
             int curPage = (int) session.getAttribute("curPage");
             curPage --;
@@ -88,6 +93,7 @@ public class Main_Query extends HttpServlet {
                 }
             }
         }
+        //下一页
         else if (Page == -3){
             int curPage = (int) session.getAttribute("curPage");
             curPage++;
@@ -115,6 +121,7 @@ public class Main_Query extends HttpServlet {
                 }
             }
         }
+        //首页/尾页/页码
         else {
             Page += 3;
             session.setAttribute("curPage",Page);
@@ -141,6 +148,7 @@ public class Main_Query extends HttpServlet {
                 }
             }
         }
+        //以JSON格式返回上述数据
         resp.setContentType("text/html;charset=utf-8");
         PrintWriter writer = resp.getWriter();
         writer.println(jsonArray);

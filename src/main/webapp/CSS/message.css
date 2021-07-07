@@ -17,6 +17,14 @@ body{
 	opacity: 0.75;
 	color: white
 }
+.box h1{
+	margin-top: 0px;
+	font-family:Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
+	font-size: 50px;
+	font-weight: normal;
+	text-align: center;
+	color: white;
+}
 .Top{
 	margin: 0;
 	top: 0;

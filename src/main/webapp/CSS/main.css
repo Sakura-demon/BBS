@@ -38,6 +38,14 @@ body{
 	border-radius: 10px;
 	opacity: 0.75;
 }
+.box h1{
+	margin-top: 0px;
+	font-family:Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
+	font-size: 50px;
+	font-weight: normal;
+	text-align: center;
+	color: white;
+}
 .bottom{
 	margin: 0 auto;
 	margin-top: 1px;

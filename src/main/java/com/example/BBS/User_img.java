@@ -13,7 +13,9 @@ import java.sql.*;
 public class User_img extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        //接收Session对象账号
         int Uaccount = (int) req.getSession().getAttribute("account");
+        //调用嵌套页面个人图像功能存储过程User_img，传入账号
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -27,11 +29,13 @@ public class User_img extends HttpServlet {
         }
         CallableStatement sql = null;
         try {
+            //调用嵌套页面个人图像功能存储过程User_img
             sql = con.prepareCall("{call User_img(?)}");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         try {
+            //传入账号
             sql.setInt(1,Uaccount);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -49,10 +53,12 @@ public class User_img extends HttpServlet {
         }
         String Uimgurl = null;
         try {
+            //获得结果集中的用户图片路径
             Uimgurl = rs.getString("Uimgurl");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        //将Uimgurl放入JSONObject里以JSON格式返回Uimgurl用户图像路径
         resp.setContentType("text/html;charset=utf-8");
         PrintWriter writer = resp.getWriter();
         JSONObject jsonObject = new JSONObject();

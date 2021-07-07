@@ -16,9 +16,11 @@ import java.sql.*;
 public class User_passwordUpdate extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //接收用户传来的用户密码和Session对象的账号信息
         String Upassword = req.getParameter("Upassword");
         HttpSession session = req.getSession();
         int Uaccount = (int) session.getAttribute("account");
+        //调用调用用户密码修改功能存储过程User_passwordUpdate，传入用户密码和账号信息
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -32,21 +34,25 @@ public class User_passwordUpdate extends HttpServlet {
         }
         CallableStatement sql = null;
         try {
+            //调用调用用户密码修改功能存储过程User_passwordUpdate
             sql = con.prepareCall("{call User_passwordUpdate(?,?,?)}");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         try {
+            //传入用户密码
             sql.setInt(1,Uaccount);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         try {
+            //传入账号
             sql.setString(2,Upassword);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         try {
+            //注册输出参数
             sql.registerOutParameter(3, Types.INTEGER);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -59,10 +65,12 @@ public class User_passwordUpdate extends HttpServlet {
         }
         int flag = 0;
         try {
+            //获得输出参数返回结果
             flag = sql.getInt("flag");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        //将flag放入JSONObject里以JSON格式返回flag
         resp.setContentType("text/html;charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("flag",flag);

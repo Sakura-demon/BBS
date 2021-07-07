@@ -1,3 +1,8 @@
+/*
+	进入主页时使用ajax向User_messageOrback后台Servlet请求判断是过去留言还是过去回复
+    过去留言套用主页方案
+    过去回复套用留言页面方案
+*/
 function deletemessage(Mid){
 	$.ajax({
 		url:"Main_Delete",
@@ -53,7 +58,7 @@ function bottomMessage(pageNum){
 			var page = obj[0].curPage;
 			var ul = document.getElementById("ul");
 			ul.innerHTML = '';
-			if(page != 1 || pageNum != 1){
+			if(page != 1){
 			ul.innerHTML +=
 				'<li class = "li"><a class = "lia" href="javascript:showpageMessage(-2,'+pageNum+')">首页</a></li>'+
 				'<li class = "li"><a class = "lia" href="javascript:showpageMessage(-4,'+pageNum+')">上一页</a></li>'
@@ -67,7 +72,7 @@ function bottomMessage(pageNum){
 						'<li class = "li"><a class = "lia" href="javascript:showpageMessage('+(i-2)+','+pageNum+')">'+(i+1)+'</a></li>'
 				}
 			}
-			if(page != pageNum || pageNum != 1){
+			if(page != pageNum){
 				ul.innerHTML +=
 					'<li class = "li"><a class = "lia" href="javascript:showpageMessage(-3,'+pageNum+')">下一页</a></li>'+
 					'<li class = "li"><a class = "lia" href="javascript:showpageMessage('+(pageNum-3)+','+pageNum+')">尾页</a></li>'
@@ -154,7 +159,6 @@ function showMiddleBack(page,pageNum){
 			var box = document.getElementById("box");
 			box.innerHTML = '';
 			$.each(obj,function(index,value){
-				
 				box.innerHTML += 
 					'<div class="Bid">'+
 						'<a class = "a" href="javascript:message('+value.Mid+')" style="width:90%">'+
@@ -197,7 +201,7 @@ function showBottomBack(pageNum){
 			var page = obj[0].curPage;
 			var ul = document.getElementById("ul");
 			ul.innerHTML = '';
-			if(page != 1 || pageNum != 1){
+			if(page != 1){
 			ul.innerHTML +=
 				'<li class = "li"><a class = "lia" href="javascript:showMiddleBack(-2,'+pageNum+')">首页</a></li>'+
 				'<li class = "li"><a class = "lia" href="javascript:showMiddleBack(-4,'+pageNum+')">上一页</a></li>'
@@ -211,7 +215,7 @@ function showBottomBack(pageNum){
 						'<li class = "li"><a class = "lia" href="javascript:showMiddleBack('+(i-2)+','+pageNum+')">'+(i+1)+'</a></li>'
 				}
 			}
-			if(page != pageNum || pageNum != 1){
+			if(page != pageNum){
 				ul.innerHTML +=
 					'<li class = "li"><a class = "lia" href="javascript:showMiddleBack(-3,'+pageNum+')">下一页</a></li>'+
 					'<li class = "li"><a class = "lia" href="javascript:showMiddleBack('+(pageNum-3)+','+pageNum+')">尾页</a></li>'
@@ -262,7 +266,14 @@ $(function(){
 						var obj = JSON.parse(result);
 						var totalNum = obj[0].length;
 						pageNum = Math.ceil(totalNum/10);
-						showpageMessage(-2,pageNum);
+						if(pageNum == 0){
+							var box = document.getElementById("box");
+							box.innerHTML = '';
+							box.innerHTML += 
+								'<h1>暂无数据</h1>'
+						}else{
+							showpageMessage(-2,pageNum);
+						}
 					}
 				})
 			}
@@ -282,7 +293,14 @@ $(function(){
 						var obj = JSON.parse(result);
 						var totalNum = obj[0].length;
 						pageNum = Math.ceil(totalNum/10);
-						showMiddleBack(-2,pageNum);
+						if(pageNum == 0){
+							var box = document.getElementById("box");
+							box.innerHTML = '';
+							box.innerHTML += 
+								'<h1>暂无数据</h1>'
+						}else{
+							showMiddleBack(-2,pageNum);
+						}
 					}
 				})
 			}

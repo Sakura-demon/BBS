@@ -17,8 +17,10 @@ import java.sql.*;
 public class User_pastBackQuery extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //接收用户的Session对象账号信息
         HttpSession session = req.getSession();
         int Uaccount = (int) session.getAttribute("account");
+        //调用个人页面过去回复查询功能存储过程User_pastBackQuery，传入账号
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -32,11 +34,13 @@ public class User_pastBackQuery extends HttpServlet {
         }
         CallableStatement sql = null;
         try {
+            //调用个人页面过去回复查询功能存储过程User_pastBackQuery
             sql = con.prepareCall("{call User_pastBackQuery(?)}");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         try {
+            //传入账号
             sql.setInt(1,Uaccount);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -49,12 +53,14 @@ public class User_pastBackQuery extends HttpServlet {
         }
         int Page = Integer.parseInt(req.getParameter("Page"));
         JSONArray jsonArray = new JSONArray();
+        //返回当前页数
         if (Page == -6){
             int curPage = (int) session.getAttribute("curPage");
             JSONObject jsonObjectcurPage = new JSONObject();
             jsonObjectcurPage.put("curPage",curPage);
             jsonArray.add(jsonObjectcurPage);
         }
+        //返回数据总条数
         else if (Page == -5){
             int length = 0;
             while (true){
@@ -69,6 +75,7 @@ public class User_pastBackQuery extends HttpServlet {
             jsonObjectlength.put("length",length);
             jsonArray.add(jsonObjectlength);
         }
+        //上一页
         else if (Page == -4){
             int curPage = (int) session.getAttribute("curPage");
             curPage --;
@@ -98,6 +105,7 @@ public class User_pastBackQuery extends HttpServlet {
                 }
             }
         }
+        //下一页
         else if (Page == -3){
             int curPage = (int) session.getAttribute("curPage");
             curPage++;
@@ -127,6 +135,7 @@ public class User_pastBackQuery extends HttpServlet {
                 }
             }
         }
+        //首页/尾页/页码
         else {
             Page += 3;
             session.setAttribute("curPage",Page);
@@ -156,6 +165,7 @@ public class User_pastBackQuery extends HttpServlet {
                 }
             }
         }
+        //以JSON格式返回上述数据
         resp.setContentType("text/html;charset=utf-8");
         PrintWriter writer = resp.getWriter();
         writer.println(jsonArray);

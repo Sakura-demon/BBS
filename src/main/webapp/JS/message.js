@@ -1,4 +1,38 @@
 // JavaScript Document
+/*
+	进入主页时使用ajax向AdminOrUser后台Servlet请求判断是管理员还是用户
+    管理员
+    div
+        div
+            a
+                img主页图片，点击跳转主页
+                BBS主页
+    留言标题
+    留言时间
+    用户图像
+    用户名称
+    留言信息
+    回复框，分页显示
+        用户图像
+        用户名称
+        回复信息
+        删除按钮
+    用户
+    div
+        div
+            a
+                img主页图片，点击跳转主页
+                BBS主页
+    留言标题
+    留言时间
+    用户图像
+    用户名称
+    留言信息
+    回复框，分页显示
+        用户图像
+        用户名称
+        回复信息
+*/
 function submit(){
 	$.ajax({
 		url:"Back_Publish",
@@ -163,7 +197,7 @@ function showBottomAdmin(pageNum){
 			var page = obj[0].curPage;
 			var ul = document.getElementById("ul");
 			ul.innerHTML = '';
-			if(page != 1 || pageNum != 1){
+			if(page != 1){
 			ul.innerHTML +=
 				'<li class = "li"><a class = "lia" href="javascript:showMiddleAdmin(-2,'+pageNum+')">首页</a></li>'+
 				'<li class = "li"><a class = "lia" href="javascript:showMiddleAdmin(-4,'+pageNum+')">上一页</a></li>'
@@ -177,7 +211,7 @@ function showBottomAdmin(pageNum){
 						'<li class = "li"><a class = "lia" href="javascript:showMiddleAdmin('+(i-2)+','+pageNum+')">'+(i+1)+'</a></li>'
 				}
 			}
-			if(page != pageNum || pageNum != 1){
+			if(page != pageNum){
 				ul.innerHTML +=
 					'<li class = "li"><a class = "lia" href="javascript:showMiddleAdmin(-3,'+pageNum+')">下一页</a></li>'+
 					'<li class = "li"><a class = "lia" href="javascript:showMiddleAdmin('+(pageNum-3)+','+pageNum+')">尾页</a></li>'
@@ -202,7 +236,7 @@ function showBottomUser(pageNum){
 			var page = obj[0].curPage;
 			var ul = document.getElementById("ul");
 			ul.innerHTML = '';
-			if(page != 1 || pageNum != 1){
+			if(page != 1){
 			ul.innerHTML +=
 				'<li class = "li"><a class = "lia" href="javascript:showMiddleUser(-2,'+pageNum+')">首页</a></li>'+
 				'<li class = "li"><a class = "lia" href="javascript:showMiddleUser(-4,'+pageNum+')">上一页</a></li>'
@@ -216,7 +250,7 @@ function showBottomUser(pageNum){
 						'<li class = "li"><a class = "lia" href="javascript:showMiddleUser('+(i-2)+','+pageNum+')">'+(i+1)+'</a></li>'
 				}
 			}
-			if(page != pageNum || pageNum != 1){
+			if(page != pageNum){
 				ul.innerHTML +=
 					'<li class = "li"><a class = "lia" href="javascript:showMiddleUser(-3,'+pageNum+')">下一页</a></li>'+
 					'<li class = "li"><a class = "lia" href="javascript:showMiddleUser('+(pageNum-3)+','+pageNum+')">尾页</a></li>'
@@ -267,7 +301,14 @@ $(function(){
 						var obj = JSON.parse(result);
 						var totalNum = obj[0].length;
 						pageNum = Math.ceil(totalNum/10);
-						showMiddleAdmin(-2,pageNum);
+						if(pageNum == 0){
+							var box = document.getElementById("box");
+							box.innerHTML = '';
+							box.innerHTML += 
+								'<h1>暂无数据</h1>'
+						}else{
+							showMiddleAdmin(-2,pageNum);
+						}
 					}
 				})
 			}
@@ -301,7 +342,14 @@ $(function(){
 						var obj = JSON.parse(result);
 						var totalNum = obj[0].length;
 						pageNum = Math.ceil(totalNum/10);
-						showMiddleUser(-2,pageNum);
+						if(pageNum == 0){
+							var box = document.getElementById("box");
+							box.innerHTML = '';
+							box.innerHTML += 
+								'<h1>暂无数据</h1>'
+						}else{
+							showMiddleUser(-2,pageNum);
+						}
 					}
 				})
 			}

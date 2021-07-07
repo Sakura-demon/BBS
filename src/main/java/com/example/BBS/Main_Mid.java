@@ -12,7 +12,9 @@ import java.io.IOException;
 public class Main_Mid extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //接收前端发来的留言号数据
         int Mid = Integer.parseInt(req.getParameter("Mid"));
+        //保存到Session对象中
         HttpSession session = req.getSession();
         session.setAttribute("Mid",Mid);
     }

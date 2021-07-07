@@ -1,4 +1,57 @@
 // JavaScript Document
+/*
+    进入主页时使用ajax向AdminOrUser后台Servlet请求判断是管理员还是用户
+    如果返回0，管理员
+    如果返回1，用户
+    管理员
+    div
+        div
+            a
+                img主页图片，点击跳转主页
+                BBS主页
+        div
+            button（退出，点击跳转到登录页面）
+    div（使用ajax向Main_Query后台Servlet发送-5获得留言总条数，以每页10条计算出总页数，使用ajax向Main_Query后台Servlet发送当前页数获取数据，然后刷新生成发表留言框和过去留言框）
+        发表留言框，留言主题和内容，两个文本域和提交按钮
+        过去留言框
+            div
+                div
+                    a（使用JQ循环设置相应数据的留言号，点击使用ajax向Main_Mid后台Servlet传输留言号，并跳转留言页面）
+                        div
+                            p用户名
+                            img用户图像 
+                        div
+                            h1留言标题
+                            p留言时间
+                div
+                    button（删除，点击删除该条留言）
+    用户
+    div
+        div
+            a
+                img主页图片，点击跳转主页
+                BBS主页
+        div
+            a
+                img个人图片，点击跳转用户页面
+    div（使用ajax向Main_Query后台Servlet发送-5获得留言总条数，以每页10条计算出总页数，使用ajax向Main_Query后台Servlet发送当前页数获取数据，然后刷新生成发表留言框和过去留言框）
+        发表留言框，留言主题和内容，两个文本域和提交按钮
+        过去留言框
+            div
+                div
+                    a（使用JQ循环设置相应数据的留言号，点击使用ajax向Main_Mid后台Servlet传输留言号，并跳转留言页面）
+                        div
+                            p用户名
+                            img用户图像 
+                        div
+                            h1留言标题
+                            p留言时间
+    统一分页方法（使用ajax向Main_Query后台Servlet发送-6获得当前页数）
+    div
+        ul
+            li（当前页数等于1时不显示首页和上一页，当前页数等于尾页时不显示尾页和下一页，按照前面获得计算出的总页数循环生成相应页码）
+                a（点击使用ajax向Main_Query后台Servlet发送当前页数获取数据，然后刷新生成发表留言框和过去留言框，-2表示首页/第一页，-4表示上一页，-2~正无穷表示页码，-3表示下一页，-2~正无穷表示页码）
+*/
 function Signout(){
 	window.location.href = "index.html";
 }
@@ -81,7 +134,7 @@ function bottomAdmin(pageNum){
 			var page = obj[0].curPage;
 			var ul = document.getElementById("ul");
 			ul.innerHTML = '';
-			if(page != 1 || pageNum != 1){
+			if(page != 1){
 			ul.innerHTML +=
 				'<li class = "li"><a class = "lia" href="javascript:showpageAdmin(-2,'+pageNum+')">首页</a></li>'+
 				'<li class = "li"><a class = "lia" href="javascript:showpageAdmin(-4,'+pageNum+')">上一页</a></li>'
@@ -95,7 +148,7 @@ function bottomAdmin(pageNum){
 						'<li class = "li"><a class = "lia" href="javascript:showpageAdmin('+(i-2)+','+pageNum+')">'+(i+1)+'</a></li>'
 				}
 			}
-			if(page != pageNum || pageNum != 1){
+			if(page != pageNum){
 				ul.innerHTML +=
 					'<li class = "li"><a class = "lia" href="javascript:showpageAdmin(-3,'+pageNum+')">下一页</a></li>'+
 					'<li class = "li"><a class = "lia" href="javascript:showpageAdmin('+(pageNum-3)+','+pageNum+')">尾页</a></li>'
@@ -119,7 +172,7 @@ function bottomUser(pageNum){
 			var page = obj[0].curPage;
 			var ul = document.getElementById("ul");
 			ul.innerHTML = '';
-			if(page != 1 || pageNum != 1){
+			if(page != 1){
 			ul.innerHTML +=
 				'<li class = "li"><a class = "lia" href="javascript:showpageUser(-2,'+pageNum+')">首页</a></li>'+
 				'<li class = "li"><a class = "lia" href="javascript:showpageUser(-4,'+pageNum+')">上一页</a></li>'
@@ -133,7 +186,7 @@ function bottomUser(pageNum){
 						'<li class = "li"><a class = "lia" href="javascript:showpageUser('+(i-2)+','+pageNum+')">'+(i+1)+'</a></li>'
 				}
 			}
-			if(page != pageNum || pageNum != 1){
+			if(page != pageNum){
 				ul.innerHTML +=
 					'<li class = "li"><a class = "lia" href="javascript:showpageUser(-3,'+pageNum+')">下一页</a></li>'+
 					'<li class = "li"><a class = "lia" href="javascript:showpageUser('+(pageNum-3)+','+pageNum+')">尾页</a></li>'
@@ -257,7 +310,14 @@ $(function(){
 						var obj = JSON.parse(result);
 						var totalNum = obj[0].length;
 						pageNum = Math.ceil(totalNum/10);
-						showpageAdmin(-2,pageNum);
+						if(pageNum == 0){
+							var box = document.getElementById("box");
+							box.innerHTML = '';
+							box.innerHTML += 
+								'<h1>暂无数据</h1>'
+						}else{
+							showpageAdmin(-2,pageNum);
+						}
 					}
 				})
 			}
@@ -290,7 +350,14 @@ $(function(){
 						var obj = JSON.parse(result);
 						var totalNum = obj[0].length;
 						pageNum = Math.ceil(totalNum/10);
-						showpageUser(-2,pageNum);
+						if(pageNum == 0){
+							var box = document.getElementById("box");
+							box.innerHTML = '';
+							box.innerHTML += 
+								'<h1>暂无数据</h1>'
+						}else{
+							showpageUser(-2,pageNum);
+						}
 					}
 				})
 			}

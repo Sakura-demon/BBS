@@ -16,8 +16,10 @@ import java.sql.*;
 public class User_Info extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //接收用户的Session对象账号信息
         HttpSession session = req.getSession();
         int Uaccount = (int) session.getAttribute("account");
+        //调用个人页面功能存储过程User_Info，传入账号
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -31,11 +33,13 @@ public class User_Info extends HttpServlet {
         }
         CallableStatement sql = null;
         try {
+            //调用个人页面功能存储过程User_Info
             sql = con.prepareCall("{call User_Info(?)}");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         try {
+            //传入账号
             sql.setInt(1,Uaccount);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -53,6 +57,7 @@ public class User_Info extends HttpServlet {
         }
         resp.setContentType("text/html;charset=utf-8");
         JSONObject jsonObject = new JSONObject();
+        //将结果集中的用户名称，用户图像路径放入JSONObject里以JSON格式返回
         try {
             jsonObject.put("Uname",rs.getString("Uname"));
         } catch (SQLException throwables) {
