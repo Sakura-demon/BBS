@@ -353,6 +353,16 @@ $(function(){
 						if(pageNum == 0){
 							var box = document.getElementById("box");
 							box.innerHTML = '';
+							box.innerHTML +=
+								'<div style="display: flex;justify-content: space-around;">'+
+									'<div style="width: 70%">'+
+										'<input id="Mtitle" type="text" style="width: 99%;height: 20%;border-width: 1px" placeholder="留言标题">'+
+										'<textarea id="Mmessage" style="width: 99%;height: 70%;resize: none" placeholder="留言内容"></textarea>'+
+									'</div>'+
+									'<div style="width: 30%">'+
+										'<input type="submit" value="发表" id = "submit" onClick="submit()">'+
+									'</div>'+
+								'</div>'
 							box.innerHTML += 
 								'<h1>暂无数据</h1>'
 						}else{

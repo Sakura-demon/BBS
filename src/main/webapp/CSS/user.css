@@ -19,6 +19,13 @@ body{
 .nav{
 	width: 50%;
 }
+.nav a{
+	text-decoration: none;
+	color: black;
+}
+.nav a:visited{
+	text-decoration: none;
+}
 #MainImg{
 	vertical-align: middle;
 }
