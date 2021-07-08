@@ -343,19 +343,18 @@ $(function(){
 						var totalNum = obj[0].length;
 						pageNum = Math.ceil(totalNum/10);
 						if(pageNum == 0){
-							var box = document.getElementById("box");
-							box.innerHTML = '';
-							box.innerHTML +=
+							var middle = document.getElementById("middle");
+							middle.innerHTML = '';
+							middle.innerHTML +=
 								'<div style="display: flex;justify-content: space-around;">'+
 									'<div style="width: 70%">'+
-										'<input id="Mtitle" type="text" style="width: 99%;height: 20%;border-width: 1px" placeholder="留言标题">'+
-										'<textarea id="Mmessage" style="width: 99%;height: 70%;resize: none" placeholder="留言内容"></textarea>'+
+										'<textarea id="Bmessage" style="width: 99%;height: 100%;resize: none;padding: 0px;    border-width: 0px;" placeholder="回复内容"></textarea>'+
 									'</div>'+
 									'<div style="width: 30%">'+
-										'<input type="submit" value="发表" id = "submit" onClick="submit()">'+
+										'<input type="submit" value="发表" id = "submit" onClick="submit()" style="padding: 0px;border-width: 0px;">'+
 									'</div>'+
 								'</div>'
-							box.innerHTML += 
+							middle.innerHTML += 
 								'<h1>暂无数据</h1>'
 						}else{
 							showMiddleUser(-2,pageNum);
