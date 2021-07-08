@@ -302,9 +302,9 @@ $(function(){
 						var totalNum = obj[0].length;
 						pageNum = Math.ceil(totalNum/10);
 						if(pageNum == 0){
-							var box = document.getElementById("box");
-							box.innerHTML = '';
-							box.innerHTML += 
+							var middle = document.getElementById("middle");
+							middle.innerHTML = '';
+							middle.innerHTML += 
 								'<h1>暂无数据</h1>'
 						}else{
 							showMiddleAdmin(-2,pageNum);
